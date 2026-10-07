@@ -3,7 +3,22 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "scripts": {"dev":"vite --host 0.0.0.0", "build":"vite build", "preview":"vite preview --host 0.0.0.0"},
-  "dependencies": {"@vitejs/plugin-react":"latest", "vite":"latest", "react":"latest", "react-dom":"latest", "lucide-react":"^0.468.0"},
-  "devDependencies": {}
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "dev:api": "node --env-file-if-exists=.env server/index.js",
+    "start": "NODE_ENV=production node --env-file-if-exists=.env server/index.js"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "vite": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "lucide-react": "^0.468.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=24"
+  }
 }
