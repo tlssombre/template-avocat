@@ -21,7 +21,7 @@ function Intro({onDone}) {
     <div className="intro-progress"><i/></div>
   </div>;
 }
-function Header({openBooking, identity, openAdmin}) {
+function Header({openBooking, identity}) {
   const [open,setOpen]=useState(false);
   const close=()=>setOpen(false);
   return <header className="header"><a href="#accueil" className="brand" onClick={close}><span className="brand-icon"><Scale size={24}/></span><span><b>{identity.name}</b><small>{identity.type}</small></span></a>
@@ -35,7 +35,7 @@ function BookingModal({onClose, services, onSubmit, availability}) {
 }
 function App(){
   const [intro,setIntro]=useState(!window.matchMedia('(prefers-reduced-motion: reduce)').matches);const [booking,setBooking]=useState(false);const [admin,setAdmin]=useState(location.hash==='#admin');const [content,setContent]=useState(loadContent);const [requests,setRequests]=useState(loadRequests);const {identity,services:editableServices,team,articles,faq,availability}=content;const submitRequest=data=>{const next=[{...data,id:crypto.randomUUID(),createdAt:new Date().toISOString(),status:'Nouveau'},...requests];setRequests(next);localStorage.setItem('legal-requests',JSON.stringify(next))};
-  useEffect(()=>{document.body.style.overflow=booking||intro?'hidden':'';return()=>document.body.style.overflow='';},[booking,intro]);
+  useEffect(()=>{document.body.style.overflow=!admin&&(booking||intro)?'hidden':'';return()=>document.body.style.overflow='';},[booking,intro,admin]);
   useEffect(()=>{const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));return()=>obs.disconnect()},[intro,admin]);
   useEffect(()=>{const onHash=()=>setAdmin(location.hash==='#admin');window.addEventListener('hashchange',onHash);return()=>window.removeEventListener('hashchange',onHash)},[]);
   if(admin)return <Admin content={content} setContent={setContent} requests={requests} setRequests={setRequests} onBack={()=>{location.hash='#accueil';setAdmin(false);setIntro(false)}}/>;
